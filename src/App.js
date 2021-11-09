@@ -59,6 +59,8 @@ function App() {
   const [apiData, setApiData] = useState([]);
   const [favouritesOnly, setFavouritesOnly] = useState(false);
   const [items, setItems] = useState([]);
+  const [totalSum, setTotalSum] = useState(0);
+  const [average, setAverage] = useState(0);
 
   useEffect(() => {
     axiosGet()
@@ -115,8 +117,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(items);
     setItems(favouritesOnly ? filterStarred(apiData, true) : apiData);
+    setTotalSum((apiData && getTotalSum(apiData)) || 0);
+    setAverage((apiData && getAverage(apiData)) || 0);
   }, [apiData]);
 
   useEffect(() => {
@@ -131,10 +134,11 @@ function App() {
           show favourite
         </button>
       </div>
+      total sum : {totalSum}
+      average sum : {average}
       {items.map((item) => {
         return (
           <div className="item-container" key={item.id}>
-          total
             <div className="item-container__item">
               <div className="item-container__item__name">{item.name}</div>
               <div className="item-container__item__net">{item.net}</div>
